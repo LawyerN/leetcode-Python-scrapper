@@ -1,0 +1,18 @@
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        ans = 0
+        n = len(prices)
+
+        @cache
+        def dp(i, hold): 
+            if i == n:
+                return 0
+
+            ans = dp(i+1, hold) # skip `i_th` day
+            if hold:
+                ans = max(ans, prices[i] + dp(i+1, False)) # sell
+            else:
+                ans = max(ans, dp(i+1, True) - prices[i]) # buy
+            return ans
+
+        return dp(0, False)

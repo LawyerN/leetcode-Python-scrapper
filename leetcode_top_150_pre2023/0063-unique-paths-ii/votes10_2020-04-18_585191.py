@@ -1,0 +1,26 @@
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        if len(obstacleGrid) == 0 or obstacleGrid is None or obstacleGrid[0][0] == 1: # All the edge cases, including the case where the starting position has obstacle
+            return 0
+        
+        rows = len(obstacleGrid)
+        cols = len(obstacleGrid[0])
+        arr_paths = [[0 for _ in range(cols)] for _ in range(rows)]
+        
+        for r in range(rows):
+            for c in range(cols):
+                if r == 0 and c == 0:
+                    arr_paths[r][c] = 1 # There is one way to get from starting position to starting position
+                    continue
+                    
+                if obstacleGrid[r][c] == 1: # obstacle, don\'t count
+                    continue
+                    
+                if r-1 < 0:  # For topmost row
+                    arr_paths[r][c] = arr_paths[r][c-1]
+                elif c-1 < 0: # For leftmost column
+                    arr_paths[r][c] = arr_paths[r-1][c] 
+                else:
+                    arr_paths[r][c] = arr_paths[r][c-1] + arr_paths[r-1][c]
+                
+        return arr_paths[r][c] # Even if the ending position has obstacle, it will return 0 since the placeholder array is initialized with all 0s

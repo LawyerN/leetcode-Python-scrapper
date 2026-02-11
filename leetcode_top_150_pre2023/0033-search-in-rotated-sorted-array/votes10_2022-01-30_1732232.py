@@ -1,0 +1,7 @@
+from bisect import bisect_left
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        key = lambda num: (num < nums[0], num)
+        i = bisect_left(nums, key(target), key=key)
+        return i if (i < len(nums) and nums[i] == target) else -1

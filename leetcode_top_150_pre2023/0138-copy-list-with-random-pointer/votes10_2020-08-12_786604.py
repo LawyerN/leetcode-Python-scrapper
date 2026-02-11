@@ -1,0 +1,21 @@
+def copyRandomList(self, head: \'Node\') -> \'Node\':
+        
+        clone_prehead = Node(0) # To keep track of the new list head and to avoid having 2 cases (cloning the head node and internal nodes)
+        
+		# 1. Clone Values and Next pointers
+        clone = clone_prehead
+        while head:
+            clone.next = Node(head.val, None, head.random)
+            clone = clone.next
+            
+            head.next, head = clone, head.next
+        
+		# 2. Clone Random pointers
+        clone = clone_prehead.next
+        while clone:
+            if clone.random:
+                clone.random = clone.random.next
+            
+            clone = clone.next
+                
+        return clone_prehead.next

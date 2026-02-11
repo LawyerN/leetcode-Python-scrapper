@@ -1,0 +1,65 @@
+class Solution:
+    def copyRandomList(self, head: \'Node\') -> \'Node\':
+        
+        # --------------------------------------------------------
+        
+        # Create mirror node for each node in linked list
+        
+        cur = head
+        
+        while cur:
+            
+            # backup original next node of input linkied list
+            original_next_hop = cur.next
+            
+            # create mirror node with original order
+            cur.next = Node( x = cur.val, next = original_next_hop, random = None)
+            
+            # move to next position
+            cur = original_next_hop
+        
+        
+        # --------------------------------------------------------
+        
+        # Let mirror node get the random pointer
+        
+        cur = head
+        
+        while cur:
+            
+            if cur.random:
+                # assign random pointer to mirror node
+                cur.next.random = cur.random.next
+                
+            try:
+                # move to next position
+                cur = cur.next.next
+            except AttributeError:
+                break
+                
+        
+        # --------------------------------------------------------
+                
+        # Separate copy linked list from original linked list
+        
+        try:
+            # locate the head node of copy linked list
+            head_of_copy_list = head.next
+            cur = head_of_copy_list
+            
+        except AttributeError:
+            # original input is an empty linked list
+            return None
+        
+        while cur:
+            
+            try:
+                # link mirror node to copy linked list
+                cur.next = cur.next.next
+            except AttributeError:
+                break
+            
+            # move to next position
+            cur = cur.next
+            
+        return head_of_copy_list

@@ -1,0 +1,31 @@
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_val = 0
+
+    def push(self, val: int) -> None:
+        #When empty, set first element as min_val
+        if not self.stack:
+            self.min_val = val
+    
+        cur_min = self.getMin()
+        if val < cur_min:
+            self.min_val = val
+            
+        #Append tuple of (value,minimum value at the time)    
+        self.stack.append((val,self.min_val))
+
+    def pop(self) -> None:
+        self.stack.pop()
+
+    def top(self) -> int:
+        val, _ = self.stack[-1]
+        return val
+
+    def getMin(self) -> int:
+        #If empty, return default min_val
+        if not self.stack:
+            return self.min_val
+        #Unpack tuple into min_val
+        _, self.min_val = self.stack[-1]
+        return self.min_val

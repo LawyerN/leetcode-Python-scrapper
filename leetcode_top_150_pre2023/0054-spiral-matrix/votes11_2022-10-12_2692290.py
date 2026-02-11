@@ -1,0 +1,20 @@
+1. class Solution:
+2.     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+3.         size = len(matrix) * len(matrix[0])
+4.         path = []
+5.         cell = [0,0]
+6.         step = [0,1]
+7.         
+8.         while len(path) < size:
+9.             path.append(matrix[cell[0]][cell[1]])
+10.            matrix[cell[0]][cell[1]] = 120
+11.            # next cell
+12.            nrow, ncol = cell[0]+step[0], cell[1]+step[1]
+13.            if (0 <= nrow < len(matrix)) and (0 <= ncol < len(matrix[0])) and (matrix[nrow][ncol]) != 120:
+14.                cell[0], cell[1] = nrow, ncol
+15.            else:
+16.                 # change direction (90 degrees clockwise)
+17.                 step[0], step[1] = step[1], -step[0]
+18.                 cell[0], cell[1] = cell[0]+step[0], cell[1]+step[1]
+19.                
+20.        return path

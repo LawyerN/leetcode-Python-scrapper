@@ -1,0 +1,16 @@
+def longestPalindrome(self, s: str) -> str:
+	if not s: return s
+	n, l, r = len(s), 0, 0
+	dp = [[True]*n, [False]*n]    # dp[0]: old letters palindromes, dp[1]: even letters palindromes
+	for i in range(n-1):
+		if s[i] == s[i+1]:
+			dp[1][i] = True
+			l, r = i, i+1                        
+	for m in range(2, n):         # m letters palindromes
+		for i in range(n-m):
+			j = i+m
+			x, k = m%2, i+m//2
+			dp[x][k] = dp[x][k] and s[i] == s[j]
+			if dp[x][k] and j-i > r-l:
+				l, r = i, j
+	return s[l:r+1]

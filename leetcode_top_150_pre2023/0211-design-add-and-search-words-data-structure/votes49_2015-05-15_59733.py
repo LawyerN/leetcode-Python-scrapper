@@ -1,0 +1,11 @@
+class WordDictionary:
+
+    def __init__(self):
+        self.words = collections.defaultdict(set)
+    
+    def addWord(self, word):
+        self.words[len(word)].add(word)
+
+    def search(self, word):
+        return any(map(re.compile(word).match,
+                       self.words[len(word)]))

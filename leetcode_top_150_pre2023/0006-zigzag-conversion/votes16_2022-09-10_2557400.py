@@ -1,0 +1,28 @@
+def convert(self, s, row):
+        n = len(s)
+        if n <= row:   #this is base contions if row is greater than the length of string. so just return string
+            return s
+        ans, startIndex, idx, flag, count = \'\', 0, 0, 0, 2
+        for i in range(n):
+            if startIndex == 0 or startIndex == row-1:
+                ans += s[idx]
+                idx += row + (row - 2)
+                if i == n-1: break
+                if idx > n - 1 or idx <= 0:  #this another or condition is for when we have given two length string and row is 1 
+											#then for the second time that idx value goes to -ve that\'s why it is written
+                    startIndex += 1
+                    idx = startIndex
+            else:
+                if flag == 0:
+                    ans += s[idx]
+                    flag = 1
+                    idx += row + (row - 2) - count
+                else:
+                    ans += s[idx]
+                    idx += count
+                    flag = 0
+                if idx > n-1 or idx <= 0:
+                    startIndex += 1
+                    idx, flag = startIndex, 0
+                    count += 2
+        return ans

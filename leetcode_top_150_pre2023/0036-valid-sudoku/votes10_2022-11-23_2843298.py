@@ -1,0 +1,38 @@
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        #checking for each row if a value doesn\'t repeat 
+        for row in range(9): #for each row
+            row_values=[] #we create a list of values that are in the row
+            for col in range(9): #we go through each column
+                if board[row][col] != ".": #if there is a number 
+                    if board[row][col] in row_values: #and the number is already in the list of values that are in the row => repetition 
+                        return False #sudoku is not valid
+                    row_values.append(board[row][col]) #if the number is not in the list of values that are in the row, we add it
+                    
+        #checking for each col if a value doesn\'t repeat
+        for col in range(9): #for each column
+            col_values=[] #we create a list of values that are in the column
+            for row in range(9): #we go through each row
+                if board[row][col] != ".": #if there is a number
+                    if board[row][col] in col_values: #and the number is already in the list of values that are in the column => repetition
+                        return False #sudoku is not valid 
+                    col_values.append(board[row][col]) #if the number is not in the list of values that are in the column, we add it
+    
+        #checking for each 3*3 squares
+        #the combination of squares are : 
+		#[0,1,2][0,1,2] [0,1,2][3,4,5] [0,1,2][6,7,8]
+		#[3,4,5][0,1,2] [3,4,5][3,4,5] [3,4,5][6,7,8]
+		#[6,7,8][0,1,2] [6,7,8][3,4,5] [6,7,8][6,7,8]
+		list = [[0,1,2], [3,4,5], [6,7,8]] 
+		#those squares are the combination of the same indexes so we create a list to iterate upon with i and j
+        for i in range(3): 
+            for j in range(3):
+                square_values = [] #for each square we create a list of value that are in the square
+                for col in list[i]: #we\'re gonna go through 3 columns (1st : col 0, col 1 & col 2, then : col 3, col 4 & col 5 and finally : col 6, col 7, col 8)
+                    for row in list[j]:#and 3 rows (1st : row 0, row 1 & row 2, then : row 3, row 4 & row 5 and finally : row 6, row 7, row 8)
+                        if board[row][col] != ".": #if there is a number 
+                            if board[row][col] in square_values: #and the number is already in the list of values that are in the square
+                                return False #sudoku isn\'t valid
+                            square_values.append(board[row][col]) #if the number is not in the list of values that are in the square, we add it 
+        
+        return True #if we could not find invalid sudoku in those 3 cases, then sudoku is valid

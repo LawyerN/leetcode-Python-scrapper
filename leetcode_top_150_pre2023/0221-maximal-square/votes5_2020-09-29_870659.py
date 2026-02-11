@@ -1,0 +1,1 @@
+A[i][j] = The largest square containing only 1\'s that includes indicies {1...i} and {1...j}

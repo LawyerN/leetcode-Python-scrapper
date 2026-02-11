@@ -1,0 +1,23 @@
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+        def inorder(node):
+            if node:
+                # print(root.val)
+                yield from inorder(node.left)
+                yield node.val
+                yield from inorder(node.right)
+        self.output_queue = collections.deque()
+        self.generator = inorder(root)
+        
+    def next(self) -> int:
+        if len(self.output_queue) > 0:
+            return self.output_queue.popleft()
+        return next(self.generator)
+
+    def hasNext(self) -> bool:
+        try:
+            self.output_queue.append(next(self.generator))
+            return True
+        except StopIteration:
+            return False

@@ -1,0 +1,63 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+
+        NOT_CHECKED, CHECKING, COMPLETED = 0, 1, 2
+        
+        # -------------------------------
+        
+        def has_deadlock( course )->bool:
+            
+            if course_state[course] == CHECKING:
+                # There is a cycle(i.e., deadlock ) in prerequisites
+                return True
+            
+            elif course_state[course] == COMPLETED:
+                # current course has been checked and marked as completed
+                return False
+            
+            
+            
+            # update current course as checking
+            course_state[course] = CHECKING
+            
+            # check pre_course in DFS and detect whether there is deadlock
+            for pre_course in requirement[course]:
+                
+                if has_deadlock( pre_course ):
+                    # deadlock is found, impossible to finish all courses
+                    return True
+                
+                
+                
+            # update current course as completed
+            course_state[course] = COMPLETED
+            
+            # add current completed course into taking order
+            course_taking_order.append( course )
+            
+            return False
+        
+        # -------------------------------
+        
+        # each course maintain a list of its own prerequisites
+        requirement = collections.defaultdict( list )
+        
+        for course, pre_course in prerequisites:
+            requirement[course].append( pre_course )
+        
+        
+        # each course maintain a state among {NOT_CHECKED, CHECKING, COMPLETED}
+        course_state = [ NOT_CHECKED for _ in range(numCourses) ]
+           
+        
+        course_taking_order = []
+        
+
+        for course_idx in range(0, numCourses):
+            
+            if has_deadlock(course_idx):
+                # deadlock is found, impossible to finish all courses
+                return []
+        
+        
+        return course_taking_order

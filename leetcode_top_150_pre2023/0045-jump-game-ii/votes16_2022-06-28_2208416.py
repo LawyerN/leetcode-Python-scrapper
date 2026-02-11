@@ -1,0 +1,32 @@
+def jump(self, nums: List[int]) -> int:
+        
+        n = len(nums)
+		
+		# queue stores index and number jump to reach it
+        q = deque([(0,0)])
+		
+		# created visited set to stored visited indices
+		# this set is needed to avoid duplicate work and to protect you from TLE :-)
+		# we initialize it with the first index because it will be inevitably visited.
+        visited = set([0])
+        
+        while q:
+            
+			# don\'t forget to use popleft instead of pop to get desired first in first out behavior
+            cur, jumps = q.popleft()
+            
+			# if we\'ve reached the last index we are done
+			# And because BFS is shortest path we just return corresponding number of jumps
+            if cur == n - 1:
+                return jumps
+            
+			# jump for each possible index from current position according to available number of jumps
+			# min(cur+nums[cur]+1,n) just cuts jumps which are out of bound of our array
+            for i in range(cur + 1, min(cur+nums[cur]+1,n)):
+			
+				# jump only if we haven\'t visited this index already
+                if i not in visited:
+				
+					# if jump mark index as visited
+                    visited.add(i)
+                    q.append((i,jumps+1))

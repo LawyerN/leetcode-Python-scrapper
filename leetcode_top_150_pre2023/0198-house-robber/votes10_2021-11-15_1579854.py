@@ -1,0 +1,12 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) <= 2:
+            return max(nums)
+        
+        return self.robMax(nums, len(nums) - 1) # start from the last/top
+    
+    
+    def robMax(self, nums, i):
+        if i < 0:
+            return 0 # when i < 0 we just have to return 0
+        return max(nums[i] + self.robMax(nums, i - 2), self.robMax(nums, i - 1))

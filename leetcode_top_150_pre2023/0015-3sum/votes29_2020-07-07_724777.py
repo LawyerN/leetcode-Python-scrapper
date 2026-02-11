@@ -1,0 +1,1 @@
+case ii. two numbers are the same - needs to check against

@@ -1,0 +1,7 @@
+def rob(self, arr: List[int]) -> int:
+        arrLength = len(arr)
+        if arrLength == 0: return 0
+        elif arrLength == 1: return arr[0]
+        elif arrLength == 2: return max(arr[0], arr[1])
+        else:
+            return max(arr[0] + self.rob(arr[2:]), self.rob(arr[1:]))

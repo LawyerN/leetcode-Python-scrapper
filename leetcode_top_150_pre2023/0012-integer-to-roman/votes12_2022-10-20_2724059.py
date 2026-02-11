@@ -1,0 +1,19 @@
+class Solution:
+    def intToRoman(self, num: int) -> str: 
+
+        mils = ["", "M", "MM", "MMM"]
+
+        cens = [ "",  "C",  "CC",  "CCC", "CD",
+                "D", "DC", "DCC", "DCCC", "CM"]
+
+        decs = [ "",  "X",  "XX",  "XXX", "XL",
+                "L", "LX", "LXX", "LXXX", "XC"]
+
+        unes = [ "",  "I",  "II",  "III", "IV",
+                "V", "VI", "VII", "VIII", "IX"]    #    EX:  num = 2579
+
+        m, num = divmod(num,1000)                  #  m = 2  num =  579
+        c, num = divmod(num,100 )                  #  m = 5  num =   79
+        d, u   = divmod(num,10  )                  #  m = 7  u   =    9
+
+        return mils[m]+cens[c]+decs[d]+unes[u]     #  mils[2]+cens[5]+decs[7]+unes[9] = MM + D + LXX + IX = MMDLXXIX

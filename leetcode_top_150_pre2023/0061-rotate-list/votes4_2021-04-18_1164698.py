@@ -1,0 +1,32 @@
+class Solution:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        # If list is empty or contains only one element,
+        # no need to rotate
+        if not head or not head.next:
+            return head
+        
+        # Iterate to the list tail and get list size
+        cur = head
+        size = 1
+        while cur.next:
+            size += 1
+            cur = cur.next 
+            
+        # Compute the actual number that need to be rotated
+        k %= size
+        # If k = n * size, then no need to rotate
+        if k == 0:
+            return head
+        
+        # Connect tail and head to create a circular list
+        cur.next = head 
+        
+        # Iterate to the node which should be the new tail after rotation,
+        # and split the list 
+        cur = head
+        for _ in range(size - k - 1):
+            cur = cur.next
+        new_head = cur.next
+        cur.next = None
+        
+        return new_head

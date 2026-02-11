@@ -1,0 +1,16 @@
+class Solution:
+    def __init__(self):
+        self.cache = {}
+        
+    def rob_rec(self, nums, start):
+        if start >= len(nums):
+            return 0
+        
+        if start in self.cache:
+            return self.cache[start]
+        
+        self.cache[start] = nums[start] + max(self.rob_rec(nums, start+2), self.rob_rec(nums, start+3))
+        return self.cache[start]
+        
+    def rob(self, nums: List[int]) -> int:
+        return max(self.rob_rec(nums, 0), self.rob_rec(nums, 1))

@@ -1,0 +1,30 @@
+def recursive(self, root):
+        #inspired by the solution somewhat
+        out = []
+        def rec(node, height):
+            if node:
+                if len(out) <= height:
+                    out.append([])
+                out[height].append(node.val)
+                rec(node.left, height + 1)
+                rec(node.right, height + 1)
+        rec(root, 0)
+        return [out[i] if i%2==0 else out[i][::-1] for i in range(len(out))]
+    
+    def iterative(self, root):
+        # here, the stack should be replaced by queue but I guess, I am lazy ;)
+        if not root: return []
+        stack = [root]
+        out = []
+        reverse = True
+        while len(stack):
+            temp = []
+            out.append([i.val for i in (stack if reverse else stack[::-1])])
+            reverse = not reverse
+            while len(stack):
+                top = stack.pop(0)
+                if top.left: temp.append(top.left)
+                if top.right: temp.append(top.right)
+            
+            stack = temp
+        return out

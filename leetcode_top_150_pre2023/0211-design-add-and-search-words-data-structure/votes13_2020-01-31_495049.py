@@ -1,0 +1,118 @@
+class TrieNode:
+    def __init__(self, val):
+        self.val = val
+        self.child = {}
+        self.last = False
+
+class WordDictionary: # this will serve as  the Trie class
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = TrieNode(None)
+        
+    def addWord(self, word: str) -> None:
+        """
+        Adds a word into the data structure.
+        """
+        root = self.root
+        for char in word:
+            if char not in root.child:
+                root.child[char] = TrieNode(char)
+            root = root.child[char]
+        root.last = True
+        
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the data structure. A word could contain the dot character \'.\' to represent any one letter.
+        """
+        
+        # -- helper
+        def dfs(word, root):
+            
+            for i, char in enumerate(word):
+
+                if char == ".":
+                    for child in root.child:
+                        childNode = root.child[child]
+                        if dfs(word[i+1:], childNode):
+                            return True
+                    return False
+
+                else:
+                    if char not in root.child:
+                        return False
+                    root = root.child[char]
+                    
+            return root.last
+        
+        
+        # -- main
+        root = self.root
+        return dfs(word, root) # ----------- [1]
+        
+    
+
+                
+        
+        # NOTE [1]
+        # --------
+        # Why am I passing a root argumnet in addition to the word?
+        # Since we might search words like:
+        #       .ad
+        #       ..d
+        # We would want to begin the search from the first alphabetic letter
+        # after ignoring the dot letters and for that we will need to call
+        # the function recursively but in the recursive scenario, we don\'t want
+        # the trie traversal to happen from the root all over again. Instead,
+        # we want to check the alphabetic part  only and the dots that preceds
+        # that part are irrelevant
+        
+        
+        # NOTE [2]
+        # --------
+        # What\'s up with this additional check: char != "."?
+        # Unlike the traditional trie find() function, the 
+        # fact that char is not in root.children is not enough to
+        # return false in this particular example. Because our trie
+        # in this . problem contains words that might begin with
+        # dots -- see figure and thus we only dismiss the word as
+        # not found if the first character of that word is both:
+        #   1- Not found in the self.root.children. AND
+        #   2- First char not a dot
+        
+        
+        
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
+
+                
+        
+        # NOTE [1]
+        # --------
+        # Why am I passing a root argumnet in addition to the word?
+        # Since we might search words like:
+        #       .ad
+        #       ..d
+        # We would want to begin the search from the first alphabetic letter
+        # after ignoring the dot letters and for that we will need to call
+        # the function recursively but in the recursive scenario, we don\'t want
+        # the trie traversal to happen from the root all over again. Instead,
+        # we want to check the alphabetic part  only and the dots that preceds
+        # that part are irrelevant
+		# SEE SKETCH BELOW FOR FURTHER UNDERSTANDING
+        
+        
+        # NOTE [2]
+        # --------
+        # What\'s up with this additional check: char != "."?
+        # Unlike the traditional trie find() function, the 
+        # fact that char is not in root.children is not enough to
+        # return false in this particular example. Because our trie
+        # in this . problem contains words that might begin with
+        # dots -- see figure and thus we only dismiss the word as
+        # not found if the first character of that word is both:
+        #   1- Not found in the self.root.children. AND
+        #   2- First char not a dot

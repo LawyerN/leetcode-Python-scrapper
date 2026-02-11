@@ -1,0 +1,2 @@
+* If we have **barriers**, those indices with 0 as jump, but the preceding indices contain jumps which can go beyond those barriers, `idx+jump >= last_position` will be satisfied and `last_position` will be updated.
+E.g.

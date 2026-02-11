@@ -1,0 +1,65 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        t = Trie()
+        for w in wordDict:
+            t.addWord(w)
+        
+        #dp[i] = True if s[:i] is word breakable
+        #dp[i] = dp[j(<i)] and t.checkWord(s[j,i])
+        
+        dp=[False for i in range(len(s)+1)]
+        dp[0]=True
+        
+        for i in range(1,len(s)+1):
+            for j in range(i):
+                
+                if dp[j] and t.checkWord(s[j:i]):
+                    # print(s[j:i])
+                    dp[i] = True
+                    break
+            
+        return dp[-1]
+ 
+            
+
+class TrieNode:
+    def __init__(self, letter):
+        self.nodes = {}
+        self.val = letter
+        self.term = False
+
+    def markTerm(self, stat):
+        self.term = stat
+
+    def isTerm(self):
+        return self.term
+
+    def addKid(self, kid):
+        if kid not in self.nodes:
+            self.nodes[kid] = TrieNode(kid)
+        return self.nodes[kid]
+
+    def getKid(self, kid):
+        return self.nodes.get(kid)
+
+    def hasKid(self, kid):
+        return True if kid in self.nodes else False
+
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode(\'Root\')
+
+    def addWord(self, word):
+        p = self.root
+        for w in word:
+            p = p.addKid(w)
+        p.markTerm(True)
+
+    def checkWord(self, word):
+        p = self.root
+        for w in word:
+            p = p.getKid(w)
+            if p is None:
+                return False
+        return True if p.isTerm() else False

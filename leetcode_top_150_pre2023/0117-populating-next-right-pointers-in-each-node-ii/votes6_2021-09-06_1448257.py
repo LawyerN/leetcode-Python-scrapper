@@ -1,0 +1,20 @@
+class Solution:
+    def connect(self, root: \'Node\') -> \'Node\':
+        parents = [root] 
+        kids = []
+        prev = None
+        while len(parents) > 0:
+            p = parents.pop(0)
+            if prev:
+                prev.next = p
+            prev = p
+            if p:
+                if p.left:
+                    kids.append(p.left)
+                if p.right:
+                    kids.append(p.right)
+            if len(parents) == 0:
+                parents = kids
+                kids = []
+                prev = None
+        return root

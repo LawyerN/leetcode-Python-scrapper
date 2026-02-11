@@ -1,0 +1,20 @@
+class Solution:
+    def connect(self, root: \'Node\') -> \'Node\':
+        def nextChild(root):
+            if root.left: yield root.left
+            if root.right: yield root.right
+            if root.next: yield from nextChild(root.next)
+            return None
+            
+        def connectRec(root):
+            if not root: return None
+            prev = None
+            for child in nextChild(root):
+                if prev: prev.next = child
+                prev = child
+                
+            connectRec(root.left)
+            connectRec(root.right)
+
+        connectRec(root)
+        return root

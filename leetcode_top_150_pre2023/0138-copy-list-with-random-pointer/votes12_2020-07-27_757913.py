@@ -1,0 +1,18 @@
+class Solution:
+    def copyRandomList(self, head): # -> \'Node\':
+        memo = {}
+        def deepcopy(n):
+            # Trivial Returns
+            if not n:
+                return
+            if n in memo:
+                return memo[n]
+            #
+            # Create node and register it immediately (to break cycles)
+            memo[n] = new = Node( n.val )
+            #
+            # Fix Node Properties
+            new.next   = deepcopy(n.next  )
+            new.random = deepcopy(n.random)
+            return new
+        return deepcopy(head)

@@ -1,0 +1,15 @@
+def merge(self, intervals: \'List[Interval]\') -> \'List[Interval]\':
+	if not intervals: return []
+	intervals.sort()
+
+	unique = []
+	last = intervals[0]
+	for cur in intervals:
+		if cur[0] <= last[1]:
+			last[1] = max(last[1], cur[1])
+		else:
+			unique.append(last)
+			last = cur
+
+	unique.append(last)
+	return unique

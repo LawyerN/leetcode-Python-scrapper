@@ -1,0 +1,40 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        
+        if not matrix or not matrix[0]:
+            # Quick response for empty matrix
+            return []
+        
+        left, right = 0, len(matrix[0])-1
+        top, bottom = 0, len(matrix)-1
+        
+        spiral_path = []
+        
+        # Go with spiral shape and record the path
+        while True:
+            
+            # Top side and go right \u2192
+            spiral_path.extend( matrix[top][x] for x in range(left, right+1) )
+            top += 1
+            
+            if top > bottom: break 
+            
+            # Right side and go down \u2193
+            spiral_path.extend( matrix[y][right] for y in range(top, bottom+1) )
+            right -= 1
+            
+            if left > right: break 
+            
+            # Bottom side and go left \u2190
+            spiral_path.extend( matrix[bottom][x] for x in range(right, left-1, -1) )
+            bottom -= 1
+            
+            if top > bottom: break 
+            
+            # Left side and go up \u2191
+            spiral_path.extend( matrix[y][left] for y in range(bottom, top-1, -1) )
+            left += 1
+            
+            if left > right: break
+        
+        return spiral_path

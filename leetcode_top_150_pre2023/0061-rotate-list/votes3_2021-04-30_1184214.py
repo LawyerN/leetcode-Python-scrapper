@@ -1,0 +1,32 @@
+class Solution:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        # Base case
+		if head is None or head.next is None:
+            return head
+        
+		# Compute the length of list and maintain a pointer for the tail of list.
+        curr = head
+        length = 0
+        while curr.next is not None:
+            length += 1
+            curr = curr.next
+        length += 1
+        
+		# No. of rotations cannot be greater than the length of list. Hence, the modulo operation.
+        k = k%length
+        
+		# Return head if k is equal to 0 or the length of list i.e. no rotation case.
+        if k == length or k == 0:
+            return head
+           
+		# Maintain a pointer for the (length-k)th node.
+        prev = head
+        for i in range(1, length-k):
+            prev = prev.next
+			
+		# Perform the 3 step operation given in the Idea section.
+        curr.next = head
+        head = prev.next
+        prev.next = None
+		
+        return head

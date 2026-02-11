@@ -1,0 +1,18 @@
+def numIslands(self, grid: List[List[str]]) -> int:
+        try: 
+            m,n = len(grid), len(grid[0])
+        except: 
+            return 0
+        cnt = 0
+        ones = { (i,j) for i in range(m) for j in range(n) if grid[i][j]=="1" }
+        while ones:
+            queue = collections.deque([ ones.pop() ])
+            while queue:
+                i,j = queue.popleft()   # BFS
+             # i,j = queue.pop()       # DFS
+                for x,y in (i+1,j), (i-1,j), (i,j+1), (i,j-1):
+                    if 0<=x<m and 0<=y<n and (x,y) in ones:
+                        ones.discard( (x,y) )
+                        queue.append( (x,y) )
+            cnt += 1
+        return cnt

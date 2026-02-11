@@ -1,0 +1,22 @@
+def bsearch(intervals: List[List[int]], x: int) -> int:
+        lo, hi = 0, len(intervals)
+        mid = 0
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if intervals[mid][0] > x:
+                hi = mid
+            elif intervals[mid][1] < x:
+                lo = mid + 1
+            else:
+                break
+        return mid
+ 
+    def insert(intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        s, e = newInterval
+        li, ri = bsearch(intervals, s), bsearch(intervals, e)
+        l = intervals[:li + int(li < len(intervals) and intervals[li][1] < s)]
+        r = intervals[ri + int(ri >= len(intervals) or intervals[ri][0] <= e):]
+        if len(l) + len(r) != len(intervals):
+            s = min(s, intervals[len(l)][0])
+            e = max(e, intervals[-len(r)-1][1])
+        return l + [[s, e]] + r

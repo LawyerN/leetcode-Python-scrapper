@@ -1,0 +1,12 @@
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m,n=len(obstacleGrid),len(obstacleGrid[0])
+        def countPath(i,j):
+            if i>=m or j>=n or obstacleGrid[i][j]==1 :
+                return 0
+            if i==m-1 and j==n-1:
+                if obstacleGrid[i][j]==1:
+                    return 0
+                return 1
+            return countPath(i+1,j) + countPath(i,j+1)
+        return countPath(0,0)

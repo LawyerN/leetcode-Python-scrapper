@@ -1,0 +1,13 @@
+def generateParenthesis(self, n: int) -> List[str]:
+        ret=[]
+        def dfs(s,r_l,r_r,cur):
+            if s<0 or r_l<0 or r_r<0:
+                return
+            if r_l ==0 and r_r==0:
+                ret.append(cur)
+            dfs(s+1,r_l-1,r_r,cur+\'(\')
+            dfs(s-1,r_l,r_r-1,cur+\')\')
+        
+        
+        dfs(0,n,n,\'\')
+        return ret

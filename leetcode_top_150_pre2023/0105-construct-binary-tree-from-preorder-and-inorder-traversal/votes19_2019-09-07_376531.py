@@ -1,0 +1,12 @@
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if not preorder:
+            return None
+        if not inorder:
+            return None
+        ele = preorder.pop(0)
+        root = TreeNode(ele)
+        idx = inorder.index(ele)
+        root.left = self.buildTree(preorder, inorder[:idx])
+        root.right = self.buildTree(preorder, inorder[idx+1:])
+        return root

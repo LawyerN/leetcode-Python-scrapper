@@ -1,0 +1,37 @@
+def generateParenthesis(self, n: int) -> List[str]:
+
+	# ---- helper to check validity ----
+	# Big-O: O(2n) 
+	# this isValid function needs to have the complete path/combination as an input in order to check validity
+	def isValid(combo):
+		stack = []
+		for br in combo:
+			if stack:
+				prev = stack[-1]
+				if prev == "(" and br == ")":
+					stack.pop()
+				else:
+					stack.append(br)
+			else:
+				stack.append(br)
+		if not stack: # brackets have canceled each other out (aka balanced)
+			return True
+		return False
+
+	# ---- main logic -----
+	if not n:
+		return []
+	res = []
+	stack = [(n*2, "")]
+	while stack:
+		brackets, path = stack.pop()
+		# print(brackets, path)
+		if not brackets:
+			if isValid(path):
+				res.append(path)
+		else:
+			# decrement number od brackets by 1
+			# stack the two options
+			stack.append((brackets-1, path+")"))
+			stack.append((brackets-1, path+"("))  
+	return res

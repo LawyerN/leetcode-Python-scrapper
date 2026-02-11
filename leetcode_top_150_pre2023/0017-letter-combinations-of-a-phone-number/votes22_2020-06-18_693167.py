@@ -1,0 +1,32 @@
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        # STEP 1: define edge cases
+        # return an empty list if the input is an empty string
+        # since 0 and 1 do not map to any characters, we can return an empty list even when anyone of these two digits is present in the input
+        if not digits or "0" in digits or "1" in digits:
+            return
+
+        # STEP 2: define the mapping
+        map = {
+             "2": ["a","b","c"],
+             "3": ["d","e","f"],
+             "4": ["g","h","i"],
+             "5": ["j","k","l"],
+             "6": ["m","n","o"],
+             "7": ["p","q","r","s"],
+             "8": ["t","u","v"],
+             "9": ["w","x","y","z"]
+            }
+
+        # STEP 3: store mapping for the first digit in the "output" list, and then keep updating this output list until all the digits are covered
+        output = map[digits[0]]
+        index = 1
+        while(index<len(digits)):
+            next = list()
+            for i in output:
+                 for j in map[digits[index]]:
+                    next.append(i+j)  
+            output = next
+            index+=1
+
+        return(output)

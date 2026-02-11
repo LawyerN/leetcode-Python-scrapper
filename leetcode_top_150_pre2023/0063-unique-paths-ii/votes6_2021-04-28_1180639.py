@@ -1,0 +1,35 @@
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid):
+        
+        allow_to_visit = lambda x, y: (1 - obstacleGrid[y][x] )
+        
+        # height and width of matrix
+        h, w = len(obstacleGrid), len(obstacleGrid[0])
+        
+        if h * w == 0 or not allow_to_visit(0, 0):
+            
+            # Quick response for invalid cases
+            return 0
+        
+        
+        # update [0][0] as start point with one valid path
+        obstacleGrid[0][0] = 1
+        
+        ## base case: leftmost column
+        for y in range(1, h):
+            obstacleGrid[y][0] = obstacleGrid[y-1][0] * allow_to_visit(0, y)
+        
+        
+        ## base case: top row
+        for x in range(1, w):
+            obstacleGrid[0][x] = obstacleGrid[0][x-1] * allow_to_visit(x, 0)
+        
+        
+        ## general cases
+        for y in range(1, h):
+            for x in range(1, w):
+                
+                # update path count from left and top
+                obstacleGrid[y][x] = (obstacleGrid[y][x-1] + obstacleGrid[y-1][x]) * allow_to_visit(x, y)
+        
+        return obstacleGrid[h-1][w-1]

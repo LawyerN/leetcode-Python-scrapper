@@ -1,0 +1,16 @@
+class Solution(object):
+    def connect(self, root):
+        deque = collections.deque()
+        if root:
+            deque.append(root)
+        while deque:
+            size = len(deque)
+            for i in range(size):
+                l = deque.popleft()
+                if i != size-1: # last node in each level has no next
+                    l.next = deque[0]
+                if l.left:
+                    deque.append(l.left)
+                if l.right:
+                    deque.append(l.right)
+        return root

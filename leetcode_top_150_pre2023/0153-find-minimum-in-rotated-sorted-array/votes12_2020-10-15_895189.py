@@ -1,0 +1,25 @@
+class Solution:
+    def get_inflection_point(self, A):
+        n = len(A)
+        left, right = 0, n - 1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            if mid == n - 1  or A[mid] > A[mid + 1]:
+                return mid
+            
+            # inflection point to right
+            if A[mid] >= A[left]:
+                left = mid + 1
+            else:
+                right = mid - 1
+                
+        return left
+        
+    def findMin(self, A: List[int]) -> int:
+        n = len(A)
+        IP = self.get_inflection_point(A)
+        if IP == n - 1:
+            return A[0]
+        
+        return min(A[0], A[IP + 1])

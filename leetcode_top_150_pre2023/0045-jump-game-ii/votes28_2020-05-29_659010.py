@@ -1,0 +1,15 @@
+from collections import deque
+class Solution(object):
+    def jump(self, nums):
+        n = len(nums)
+        visited, queue = [False for i in range(n)], deque()
+        queue.append((0, 0))
+        visited[0] = True
+        while queue:
+            pos, step = queue.popleft()
+            if pos == n - 1:
+                return step
+            for jump in range(1, min(nums[pos] + 1, n - pos)):
+                if not visited[pos + jump]:
+                    queue.append((pos + jump, step + 1))
+                    visited[pos + jump] = True

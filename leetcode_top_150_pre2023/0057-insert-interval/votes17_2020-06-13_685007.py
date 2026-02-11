@@ -1,0 +1,22 @@
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        ## RC ##
+		## Similar to Leetcode 56. Merge Intervals ##
+		## LOGIC ##
+		## 1. As per the problem statement, the intervals are initially sorted, so we donot need to sort them, we can just insert the new interval in the right position and apply the merge intervals algorithm. ##
+		## TIME COMPLEXICITY : O(N) ##
+		## SPACE COMPLEXICITY : O(1) ##
+        
+        i = 0
+        while( i<len(intervals) and intervals[i][0] < newInterval[0]):
+            i+= 1
+        
+        intervals.insert(i,newInterval)
+        
+        ans = []
+        for interval in intervals:
+            if len(ans) == 0 or ans[-1][1] < interval[0]:
+                ans.append(interval)
+            else:
+                ans[-1][1] = max(ans[-1][1], interval[1])
+        return ans

@@ -1,0 +1,1 @@
+Here, there are just 5 papers but the least value of the number of citations is

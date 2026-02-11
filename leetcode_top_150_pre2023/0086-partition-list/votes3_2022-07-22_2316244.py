@@ -1,0 +1,25 @@
+def partition( head: Optional[ListNode], x: int) -> Optional[ListNode]:
+
+        # Step-1
+        before = before_head = ListNode(0)
+        after = after_head = ListNode(0)
+
+	    # Step-2
+        while head:
+            if head.val < x:
+                before.next = head
+                before = before.next
+            else:
+                after.next = head
+                after = after.next
+            head = head.next
+		
+		# Step-3
+        # Last node of "after" list would also be ending node of the reformed list
+        after.next = None
+        # combine the nodes to form a single list which would be returned.
+        before.next = after_head.next
+		
+		# Lastly,
+		# return the final head of the Linked List
+        return before_head.next

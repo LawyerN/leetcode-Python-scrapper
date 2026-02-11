@@ -1,0 +1,18 @@
+class Solution(object):
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """        
+        out = []
+        def back_track(par=\'\', left=0,right=0):
+            #base case --> if we generate parthenis with len 2*n we hit our goal
+            if len(par) == 2*n:
+                out.append(par)            
+            if left < n: # if we still have less opened bracket than the allowed n value --> we can still open more
+                back_track(par+\'(\', left+1,right)
+            if right < left: # we can only close the opened brackets
+                back_track(par+\')\', left, right+1)
+                
+        back_track()
+        return out

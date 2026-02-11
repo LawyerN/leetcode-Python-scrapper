@@ -1,0 +1,20 @@
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        
+        def rec(grid, i, j, d):
+            if i > len(grid)-1 or j > len(grid[0])-1:
+                return 0
+            if grid[i][j] == 1:
+                return 0
+            if i == len(grid)-1 and j == len(grid[0])-1:
+                return 1
+            if (i,j) in d:
+                return d[(i,j)]
+            
+            down = rec(grid, i+1, j, d)
+            right = rec(grid, i, j+1, d)
+            
+            d[(i,j)] = down + right
+            return d[(i,j)]
+            
+        return rec(obstacleGrid, 0, 0, {})

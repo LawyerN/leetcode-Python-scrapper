@@ -1,0 +1,27 @@
+def permute(self, nums):
+	# helper
+	def recursive(nums, perm=[], res=[]):
+		if not nums: # -- NOTE [1] 
+			res.append(perm[::]) #  -- NOTE [2] - append a copy of the perm at the leaf before we start popping/backtracking
+
+		for i in range(len(nums)): # [1,2,3]
+			newNums = nums[:i] + nums[i+1:]
+			perm.append(nums[i])
+			recursive(newNums, perm, res) # - recursive call will make sure I reach the leaf
+			perm.pop() # -- NOTE [3] 
+		return res
+
+return recursive(nums)
+
+# NOTE [1]:
+# --------
+# nums is empty at the leaf of the recursive tree
+
+# NOTE [2]:
+# --------
+# at the leaf -> we know we have exaushted one path/permutation (each path is a permutation in a recursive tree)
+# reason why we are copying here is because at lists are passed by reference and since we are maintaining only one path/perm variable throughput, we are gonna be modifiying that path variable (popping it to be precise) in order to revert the path to a previous state (aka parent node) in preperation to make a lateral/horizontal move to a sibling node. See explanation below for further understanding.
+
+# NOTE [3]:
+# ---------
+# See below

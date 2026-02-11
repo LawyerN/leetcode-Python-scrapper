@@ -1,0 +1,1 @@
+In a war, if any **King** have more than the total count of elephant , so even if rest of the **Kings** will unite and fight they can\'t win because at the end of the battle, there will be atleast

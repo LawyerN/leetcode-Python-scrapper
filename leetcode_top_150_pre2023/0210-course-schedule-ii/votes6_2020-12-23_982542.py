@@ -1,0 +1,29 @@
+from collections import defaultdict, deque
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        """Kahn\'s algorithm"""
+        courses = defaultdict(list)
+        indegree = defaultdict(int) # could also use collections.Counter here
+        for course, prereq in prerequisites:
+            courses[prereq].append(course)
+            indegree[course] += 1
+
+        q = deque(i for i in range(numCourses) if i not in indegree)
+        
+        order, visited = [], set()
+        
+        # queue will store vertices with no incoming edges
+        while q:
+            course = q.popleft()
+            order.append(course)
+            visited.add(course)
+            
+            for next_course in courses[course]:
+                if next_course in indegree:
+                    indegree[next_course] -= 1
+                    if indegree[next_course] == 0 and next_course not in visited:
+                        q.append(next_course)
+                        
+		# check if there is a cycle or a course is not listed
+        return order if len(order) == numCourses else []

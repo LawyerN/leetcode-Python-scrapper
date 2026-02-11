@@ -1,0 +1,31 @@
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]) -> None:
+        self._traversal = []
+		# find the whole traversal
+        self._inorder(root)
+		# pointer to the node which we should return
+        self._current = 0
+
+    def _inorder(self, node: Optional[TreeNode]) -> None:
+		
+        if node is None:
+            return
+
+        self._inorder(node.left)
+        self._traversal.append(node)
+        self._inorder(node.right)
+            
+    def next(self) -> int:
+        
+		# get the node
+        node = self._traversal[self._current]
+		# move the pointer
+        self._current += 1
+
+        return node.val
+
+    def hasNext(self) -> bool:
+        
+		# we have nodes until we reach the end
+        return self._current < len(self._traversal)

@@ -1,0 +1,24 @@
+class Solution(object):
+    # O(n) space
+    def minDistance(self, word1, word2):
+        h, w = len(word1)+1, len(word2)+1
+        pre = [i for i in range(w)]
+        for i in range(1, h):
+            cur = [i for _ in range(w)]
+            for j in range(1, w):
+                cur[j] = min(pre[j-1]+(word1[i-1] != word2[j-1]), pre[j]+1, cur[j-1]+1)
+            pre = cur
+        return pre[-1]
+    
+    # O(m*n) space
+    def minDistance1(self, word1, word2):
+        h, w = len(word1)+1, len(word2)+1
+        dp = [[0 for _ in range(w)] for _ in range(h)]
+        for i in range(h):
+            dp[i][0] = i
+        for j in range(w):
+            dp[0][j] = j
+        for i in range(1, h):
+            for j in range(1, w):
+                dp[i][j] = min(dp[i-1][j-1]+(word1[i-1]!=word2[j-1]), dp[i-1][j]+1, dp[i][j-1]+1)
+        return dp[-1][-1]

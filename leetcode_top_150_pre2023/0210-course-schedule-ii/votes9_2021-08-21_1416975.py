@@ -1,0 +1,29 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph, self.stack, self.visited = defaultdict(list), [], {}
+        for f,t in prerequisites:
+            graph[t].append(f)
+
+        for i in range(numCourses):
+            if i not in self.visited:
+                self.dfs(graph,i)
+                
+        return list(reversed(self.stack)) if len(self.stack) == numCourses else []
+    
+    def dfs(self,graph,i):
+	# visited[i] will be true for every i that is still in call stack, to catch a cycle if any.
+	
+        self.visited[i] = True
+        for nbr in graph[i]:
+            if nbr not in self.visited:
+                self.dfs(graph,nbr)
+				# indicating that there is cycle in the graph,
+				# returning here will result in len(stack) being < 0 which will return []
+				# as topological sort is not for cyclic graph
+            elif nbr in self.visited and self.visited[nbr]:
+                return
+	
+	#before returning form dfs add i to stack and make visited[i] False, as not in call stack anymore.
+	
+        self.stack.append(i)
+        self.visited[i] = False

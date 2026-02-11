@@ -1,0 +1,46 @@
+\'\'\'
+1. Approach is to link last node with first node
+2. Then disconnect at a point size of the list - k
+
+Example : 1->2->3-4>5  , k = 2
+
+ step 1 ,  1->2->3->4->5
+           ^___________|
+
+link the last index with first
+
+
+step 2,    1->2->3  x 4->5
+           ^_____________|
+
+cut the link at size-k th index 
+\'\'\'
+
+
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head or not k:
+            return head
+        # capture the length of the list
+        copy = head
+        size = 1
+        while copy.next:
+            size+=1
+            copy = copy.next
+        # sometimes k > size, in such case perform modulo to reduce the value
+        k = k%size if k>=size else k
+        # k = 0 means performing rotation will bring same arrangement, hence return head
+        if k==0:
+            return head
+        else:
+            copy.next = head
+        
+        # move to a point where we need to cut the link
+        ctr = 1
+        while ctr<size-k:
+            head = head.next
+            ctr+=1
+        # store the value to return and remove the link
+        temp = head.next
+        head.next = None
+        return temp

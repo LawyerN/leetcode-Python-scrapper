@@ -1,0 +1,18 @@
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        
+		# Starting from Python 3.7, dictionary order is guaranteed 
+		# to be insertion order
+        num_to_roman = { 1000 : "M", 900 : "CM", 500 : "D", 400 : "CD",
+                          100 : "C",  90 : "XC",  50 : "L",  40 : "XL",
+                           10 : "X",   9 : "IX",   5 : "V",   4 : "IV",
+                            1 : "I" }
+        roman: str = ""
+
+        # The idea is to repeat each of Roman digits as many times
+        # as needed to cover the decimal representation.
+        for i, r in num_to_roman.items():
+            roman += r * (num // i)
+            num   %= i
+        else:
+            return roman

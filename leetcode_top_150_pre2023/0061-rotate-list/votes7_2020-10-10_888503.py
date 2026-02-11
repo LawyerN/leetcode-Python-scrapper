@@ -1,0 +1,45 @@
+class Solution(object):
+    def rotateRight(self, head, k):
+        """
+        :type head: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        #if no head, return head
+        
+        if not head:
+            return head
+        
+        #make the tail point to the last node while calculating the length of LL
+        #calculate relative position of k as 0 < k < infinity
+        #if k is found to have value 0, then return the head as is
+        
+        length = 1
+        tail = head
+        
+        while tail.next:
+            tail = tail.next
+            length += 1
+        
+        k %= length
+        
+        if k == 0:
+            return head
+        
+        #new head will always start from length - k
+        #attach tail->next to head and find new head now relative to tail position 
+        
+        steps_to_new_head = length - k
+        tail.next = head
+        
+        while steps_to_new_head > 0:
+            tail = tail.next
+            steps_to_new_head -= 1
+        
+        #make new_head point to tail.next
+        #and point tail->next to NULL
+        
+        new_head = tail.next
+        tail.next = None
+        
+        return new_head

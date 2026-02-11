@@ -1,0 +1,37 @@
+def wordBreak(s, wordDict):
+        from collections import deque
+        q = deque()
+        q.append(0) # startIndx
+        visited = set()
+        dictSet = set(wordDict)
+        while q:
+            for i in range(len(q)):
+                startIndx = q.popleft()
+                if startIndx == len(s): # - NOTE [1]
+                    return True
+                
+                if startIndx not in visited:
+                    visited.add(startIndx)
+                    
+                    for endIndx in range(startIndx+1, len(s)+1): # NOTE [2]
+                        sub = s[startIndx: endIndx]
+                        if sub in dictSet:
+                            q.append(endIndx) # endIndx is the new startIndx
+                            
+        return False   
+    
+    
+        # NOTE [1]
+        # --------
+        # How do I know when to return true?
+        # When the start index = len(s) (aka successfully reached the end of s)
+        # A path won\'t be able to reach the end of s if any of the genreated substrings 
+        # is not a dictionary word.
+        # In other words, if a branch resuts in a non-dict word, it gets pruned/terminated
+        # One successful path is enough to return True (aka to declare s can be broken into dict-apporved words)
+        # Which is why we use BFS, so that we can find the shortest successful path faster (if more than one successful path exist)
+        
+        # NOTE [2]
+        # --------
+        # Generate all possible substrings by generating all possible end-indicies
+        # However we only expand/traverse those substrings that are dict-approved

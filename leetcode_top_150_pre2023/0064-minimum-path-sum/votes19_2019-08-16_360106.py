@@ -1,0 +1,40 @@
+def minPathSum(self, grid: List[List[int]]) -> int:
+        
+	from heapq import heappush, heappop
+	h = []
+	startNode = (grid[0][0], (0,0)) # cost, coor
+	heappush(h, startNode)
+	dirs = [(1,0), (0,1)] # only right and down are allowed
+	cost_so_far = {(0,0): grid[0][0]} # stores min cost to get to all nodes
+	# cameFrom = {(0,0): None} # -- NOTE [1]
+	while h:
+		cost, node = heappop(h)
+		x, y = node
+		if x == len(grid)-1 and y == len(grid[0])-1: # destination found
+			break
+
+		# explore nei
+		for dir in dirs:
+			newX, newY = x+dir[0], y+dir[1]
+			# check bounds
+			if newX <= len(grid)-1 and newY <= len(grid[0])-1:
+				edgeCost, nei = grid[newX][newY], (newX, newY)
+				newCost = cost + edgeCost 
+				# check if weights needs to be updated
+				if ( nei not in cost_so_far or (nei in cost_so_far and cost_so_far[nei] > newCost) ):
+					cost_so_far[nei] = newCost
+					heappush(h, (newCost, nei))
+					# cameFrom[nei] = node # -- NOTE [1]
+
+	# return cost to reach destination
+	return cost_so_far[(x,y)]
+
+	# NOTE [1]
+	# --------
+	# Min path debugging:
+	# path = []
+	# trgt = (len(grid)-1, len(grid[0])-1)
+	# while trgt in cameFrom:
+	#	path.insert(0, trgt)
+	#	trgt = cameFrom[trgt]
+	# print("path = ", path)

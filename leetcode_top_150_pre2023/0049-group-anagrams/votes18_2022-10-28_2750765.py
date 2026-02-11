@@ -1,0 +1,15 @@
+class Solution:
+    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
+        
+        anadict = defaultdict(list)     # Ex: ["eat","tea","tan","ate","nat","bat"]                     
+        
+        for s in strs:                  #  s   ana  anadict   
+            ana = \'\'.join(sorted(s))    # \u2013\u2013\u2013  \u2013\u2013\u2013  \u2013\u2013\u2013\u2013\u2013\u2013\u2013  
+            anadict[ana].append(s)      # eat  aet  {\'aet\': [\'eat\']}
+                                        # tea  aet  {\'aet\': [\'eat\', \'tea\']}
+                                        # tan  ant  {\'aet\': [\'eat\', \'tea\'], \'ant\': [\'tan\']}
+                                        # ate  aet  {\'aet\': [\'eat\', \'tea\', \'ate\'], \'ant\': [\'tan\']}
+                                        # nat  ant  {\'aet\': [\'eat\', \'tea\', \'ate\'], \'ant\': [\'tan\', \'nat\']}
+                                        # bat  abt  {\'aet\': [\'eat\', \'tea\', \'ate\'], \'ant\': [\'tan\', \'nat\'], \'abt\': [\'bat\']}
+
+        return list(anadict.values())   # [[\'eat\', \'tea\', \'ate\'], [\'tan\', \'nat\'], [\'bat\']]
